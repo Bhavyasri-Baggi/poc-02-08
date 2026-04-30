@@ -49,7 +49,7 @@ pipeline {
             steps {
                 sh '''
                 docker rm -f poc02-08 || true
-                docker run -d -p 80:3000 --name poc02-08 poc02-08-app
+                docker run -d -p 8081:3000 --name poc02-08 poc02-08-app
                 '''
             }
         }
