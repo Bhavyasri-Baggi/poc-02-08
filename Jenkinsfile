@@ -9,9 +9,32 @@ pipeline {
             }
         }
 
-        stage('Build App') {
+        stage('Build Application') {
             steps {
-                sh 'npm install'
+                sh '''
+                npm install
+                '''
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('sonarqube-server') {
+                    sh '''
+                    sonar-scanner \
+                    -Dsonar.projectKey=poc-02-08 \
+                    -Dsonar.sources=. \
+                    -Dsonar.language=js
+                    '''
+                }
+            }
+        }
+
+        stage('Quality Gate') {
+            steps {
+                timeout(time: 2, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
             }
         }
 
@@ -21,12 +44,11 @@ pipeline {
             }
         }
 
-        stage('Deploy Container') {
+        stage('Deploy') {
             steps {
                 sh '''
-                docker stop poc02-08 || true
-                docker rm poc02-08 || true
-                docker run -d -p 3000:3000 --name poc02-08 poc02-08-app
+                docker rm -f poc02-08 || true
+                docker run -d -p 80:3000 --name poc02-08 poc02-08-app
                 '''
             }
         }
