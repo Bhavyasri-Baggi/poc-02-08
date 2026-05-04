@@ -1,6 +1,6 @@
-FROM node:18  # image like os node node is the default docker os image like t3.micro in aws ec2 insance which conatins required dependecies and packages
-WORKDIR /app #defining the working directory 
-COPY . .  #coping from local repo to any remote repositories
-RUN npm install  #installing required dependencies and staring the container i.e from image to container running
-EXPOSE 3000  #defining the port where it need to be run
-CMD ["npm", "start"]  #starting the container
+FROM node:18  # This pulls the official Node.js base image which contains Node.js and npm preinstalled. It is not an OS like EC2; it is a lightweight container base image.
+WORKDIR /app #Sets /app as the working directory inside the container. All subsequent commands run from here.
+COPY . .  #Copies the application source code from the Git repository into the container filesystem.
+RUN npm install  #Installs application dependencies during image build time.
+EXPOSE 3000  #Documents that the application listens on port 3000 inside the container. This does not publish the port by itself.
+CMD ["npm", "start"]  #Defines the default command that runs when the container starts.
