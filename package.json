@@ -1,5 +1,5 @@
 {
-  "name": "poc-02",
+  "name": "poc-02-08",
   "version": "1.0.0",
   "scripts": {
     "start": "node app.js"
